@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>Redsnail</title>
+<style>
+.minitile {
+    display: inline-block;
+    padding: 8px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 5px;
+    font-size: 10pt;
+}
+.tiletext {
+    padding-left: 8px;
+</style>
+<link rel="stylesheet" href="{{static('font-awesome/css/font-awesome.min.css')}}">
+<script type="text/javascript" src="{{static('jquery.min.js')}}"></script>
+<script>
+window.onload = function() {
+    var protocol = (window.location.protocol.indexOf("https") === 0) ? "wss" : "ws";
+    var ws_url = protocol+"://"+window.location.host+ "{{ws_url_path}}";
+
+    var ws = new WebSocket(ws_url);
+
+    ws.onmessage = function(event) {
+        var msg = JSON.parse(event.data);
+        var panel = $('#panel-ls')
+        panel.empty();
+        var dir, file, tile;
+        for (var i=0; i < msg.data.dirs.length; i++) {
+            dir = msg.data.dirs[i];
+            tile = $('<div/>').addClass('minitile')
+                .append($('<i/>').addClass('fa fa-folder-open'))
+                .append($('<span/>').addClass('tiletext').text(dir));
+            panel.append(tile);
+        }
+        for (var i=0; i < msg.data.files.length; i++) {
+            file = msg.data.files[i];
+            tile = $('<div/>').addClass('minitile')
+                .append($('<i/>').addClass('fa fa-file-o'))
+                .append($('<span/>').addClass('tiletext').text(file));
+            panel.append(tile);
+        }
+    };
+};
+</script>
+</head>
+<body>
+<h1>Test thingy</h1>
+<div id="panel-ls"></div>
+</body>
