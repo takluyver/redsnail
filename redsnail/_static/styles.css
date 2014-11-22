@@ -1,0 +1,90 @@
+.minitile {
+    display: inline-block;
+    padding: 8px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 5px;
+    font-size: 10pt;
+}
+.tiletext {
+    padding-left: 8px;
+}
+
+/*-----------------------------------------------------------------------------
+| Copyright (c) 2014, S. Chris Colbert
+|
+| Distributed under the terms of the BSD 3-Clause License.
+|
+| The full license is in the file LICENSE, distributed with this software.
+|----------------------------------------------------------------------------*/
+
+
+.p-dockarea {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+}
+
+
+.p-dockpanel {
+  min-height: 120px;
+  min-width: 200px;
+}
+
+
+.p-dockpanel-tabbar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 25px;
+}
+
+
+.p-dockpanel-content {
+  position: absolute;
+  top: 25px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+
+.p-dockpanel-tabbar .p-tab {
+  height: 25px;
+  padding: 0px 10px;
+  background-color: #3A3A3A;
+  font: 11pt "Segoe UI";
+  /*color: white;*/
+}
+
+
+.p-dockpanel-tabbar .p-tab:hover:not(.p-current) {
+  background-color: #606060;
+}
+
+
+.p-dockpanel-tabbar .p-tab.p-current {
+  background-color: white;
+  color: black;
+}
+
+
+.p-dockarea-floattab {
+  height: 27px;
+  padding: 0px 10px;
+  border: 1px solid #202020;
+  background-color: white;
+  font: 11pt "Segoe UI";
+  color: black;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+}
+
+
+.p-dockpanel-overlay {
+  border: 3px solid #3BA3FF;
+  background-color: rgba(255, 255, 255, 0.5);
+}

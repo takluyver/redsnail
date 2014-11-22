@@ -2,21 +2,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Redsnail</title>
-<style>
-.minitile {
-    display: inline-block;
-    padding: 8px;
-    background-color: #f7f7f7;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    margin: 5px;
-    font-size: 10pt;
-}
-.tiletext {
-    padding-left: 8px;
-</style>
+<link rel="stylesheet" href="{{static('phosphor.min.css')}}">
 <link rel="stylesheet" href="{{static('font-awesome/css/font-awesome.min.css')}}">
+<link rel="stylesheet" href="{{static('styles.css')}}">
 <script type="text/javascript" src="{{static('jquery.min.js')}}"></script>
+<script type="text/javascript" src="{{static('phosphor.min.js')}}"></script>
 <script>
 window.onload = function() {
     var protocol = (window.location.protocol.indexOf("https") === 0) ? "wss" : "ws";
@@ -24,9 +14,11 @@ window.onload = function() {
 
     var ws = new WebSocket(ws_url);
 
+    var panel_widget = new phosphor.Widget();
+
     ws.onmessage = function(event) {
         var msg = JSON.parse(event.data);
-        var panel = $('#panel-ls')
+        var panel = $(panel_widget.domNode());
         panel.empty();
         var dir, file, tile;
         for (var i=0; i < msg.data.dirs.length; i++) {
@@ -44,10 +36,25 @@ window.onload = function() {
             panel.append(tile);
         }
     };
+    
+  function tabBarFactory() {
+    var tabBar = new phosphor.TabBar();
+    tabBar.setTabOverlap(-1);
+    tabBar.setTabWidth(130);
+    return tabBar;
+  }
+
+  var area = new phosphor.DockArea(tabBarFactory);
+
+  area.insertWidget('Files', panel_widget, phosphor.DockMode.TabBefore);
+
+  area.mount(document.body);
+
+  window.onresize = function() {
+    area.resize();
+  };
 };
 </script>
 </head>
 <body>
-<h1>Test thingy</h1>
-<div id="panel-ls"></div>
 </body>
