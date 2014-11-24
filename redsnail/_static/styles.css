@@ -1,3 +1,7 @@
+body {
+    font-family: sans-serif;
+}
+
 .minitile {
     display: inline-block;
     padding: 8px;
@@ -57,7 +61,7 @@
   height: 25px;
   padding: 0px 10px;
   background-color: #3A3A3A;
-  font: 11pt "Segoe UI";
+  font-size: 11pt;
   /*color: white;*/
 }
 
@@ -78,7 +82,7 @@
   padding: 0px 10px;
   border: 1px solid #202020;
   background-color: white;
-  font: 11pt "Segoe UI";
+  font-size: 11pt;
   color: black;
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
 }
