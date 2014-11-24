@@ -8,9 +8,10 @@ status_map = {'A': 'added',
              }
 
 class GitPanel(PanelBase):
-    def on_cmd(self, cmd):
+    def on_cmd(self, event):
         try:
-            reporoot = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'])
+            reporoot = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'],
+                                               cwd=event['pwd'])
         except subprocess.CalledProcessError:
             return
             

@@ -6,8 +6,8 @@ def filter_and_sort(filelist):
                 if not f.startswith(('.', '__'))]
 
 class LsPanel(PanelBase):
-    def on_cd(self, path):
-        _, dirs, files = next(os.walk(path))
+    def on_prompt(self, event):
+        _, dirs, files = next(os.walk(event['pwd']))
         self.send({'kind': 'update',
                    'panel': 'ls',
                    'data': {'dirs': filter_and_sort(dirs),
