@@ -9,17 +9,28 @@ status_map = {'A': 'added',
 
 class GitPanel(PanelBase):
     def on_cmd(self, cmd):
+        try:
+            reporoot = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'])
+        except subprocess.CalledProcessError:
+            return
+            
         out = subprocess.check_output(['git', 'status', '--porcelain'],
+                                      cwd=reporoot.strip(),
                                       universal_newlines=True)
-        data = []
+        data = {'stage': [], 'wd': []}
         for line in out.splitlines():
             stagestatus = line[0]
             wdstatus = line[1]
             path = line[3:]
             
-            data.append({'path': path,
-                         'stage': status_map[stagestatus],
-                         'wd': status_map[wdstatus]})
+            if stagestatus in 'AMD':
+                data['stage'].append({'path': path,
+                                      'status': status_map[stagestatus],
+                                     })
+            if wdstatus in 'MD?':
+                data['wd'].append({'path': path,
+                                   'status': status_map[stagestatus], 
+                                  })
         
         self.send({'kind': 'update',
                    'panel': 'git',
