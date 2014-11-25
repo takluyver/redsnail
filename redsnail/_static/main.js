@@ -11,6 +11,10 @@ window.onload = function() {
         var msg = JSON.parse(event.data);
         var panel = $(panel_widget.domNode());
         panel.empty();
+        panel.append($('<h2/>')
+            .append($('<i/>').addClass('fa fa-folder-open-o'))
+            .append(' ' + msg.data.path)
+        )
         var dir, file, tile;
         for (var i=0; i < msg.data.dirs.length; i++) {
             dir = msg.data.dirs[i];
