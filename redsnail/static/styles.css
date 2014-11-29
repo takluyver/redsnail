@@ -15,6 +15,13 @@ body {
     padding-left: 8px;
 }
 
+.minitile-green {
+    background-color: hsl(120, 50%, 80%);
+}
+.minitile-red {
+    background-color: hsl(0, 50%, 80%);
+}
+
 h2 {
     font-size: 14pt;
     margin-top: 0.2em;
