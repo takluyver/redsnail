@@ -21,6 +21,11 @@ h2 {
     margin-bottom: 0.5em;
     margin-left: 1em;
 }
+
+.p-dockpanel-content .header-logo {
+    height: 1em;
+    width: auto;
+}
 /*-----------------------------------------------------------------------------
 | Copyright (c) 2014, S. Chris Colbert
 |

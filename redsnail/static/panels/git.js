@@ -12,7 +12,10 @@ define(['jquery', 'phosphor'], function($, p) {
   
     GitPanel.prototype.createDOMNode = function() {
         return $('<div/>').append(
-            $('<h2/>').append($('<img/>').attr('src', '/static/git-logo.png'))
+            $('<h2/>')
+                .append($('<img/>').attr('src', '/static/git-logo.png')
+                    .addClass('header-logo')
+                )
                 .append(' ').append(this.reporoot_elm)
             ).append(this.stage_elm)
             .append(this.wd_elm)
