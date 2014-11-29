@@ -3,6 +3,7 @@ import json
 import re
 import tornado.web
 from tornado.websocket import WebSocketHandler
+import tornado_xstatic
 import webbrowser
 
 from .panels.ls import LsPanel
@@ -20,6 +21,7 @@ class PanelsSocket(WebSocketHandler):
 class PageHandler(tornado.web.RequestHandler):
     def get(self):
         return self.render("eg.html", static=self.static_url,
+                           xstatic=self.application.settings['xstatic_url'],
                            ws_url_path="/websocket")
 
 bash_hist_line_re = re.compile(r'\s*(\d+)\s+(.*)$')
@@ -82,10 +84,13 @@ def main(argv=None):
     handlers = [
                 (r"/websocket", PanelsSocket),
                 (r"/", PageHandler),
+                (r"/xstatic/(.*)", tornado_xstatic.XStaticFileHandler,
+                     {'allowed_modules': ['jquery', 'requirejs']})
                ]
     app = tornado.web.Application(handlers, static_path=STATIC_DIR,
                       template_path=TEMPLATE_DIR,
-                      coordinator = Coordinator(loop)
+                      coordinator = Coordinator(loop),
+                      xstatic_url = tornado_xstatic.url_maker('/xstatic/'),
                       )
     app.listen(8765)
     loop.add_callback(webbrowser.open, "http://localhost:8765/")
