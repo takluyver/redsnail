@@ -1,4 +1,4 @@
-window.onload = function() {
+require(['jquery', 'phosphor'], function($, phosphor) {
     var protocol = (window.location.protocol.indexOf("https") === 0) ? "wss" : "ws";
     var ws_url = protocol+"://"+window.location.host+ document.body.dataset.wsUrlPath;
 
@@ -49,4 +49,4 @@ window.onload = function() {
   window.onresize = function() {
     area.resize();
   };
-};
+});

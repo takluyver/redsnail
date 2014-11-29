@@ -5,8 +5,15 @@
 <link rel="stylesheet" href="{{static('phosphor.min.css')}}">
 <link rel="stylesheet" href="{{xstatic('font_awesome', 'css/font-awesome.min.css')}}">
 <link rel="stylesheet" href="{{static('styles.css')}}">
-<script type="text/javascript" src="{{xstatic('jquery', 'jquery.min.js')}}"></script>
-<script type="text/javascript" src="{{static('phosphor.min.js')}}"></script>
+<script type="text/javascript" src="{{xstatic('requirejs', 'require.min.js')}}"></script>
+<script>
+    require.config({
+        paths: {
+            jquery: "{{xstatic('jquery', 'jquery.min.js')}}",
+            phosphor: "{{static('phosphor.min.js')}}",
+        }
+    });
+</script>
 <script type="text/javascript" src="{{static('main.js')}}"></script>
 </head>
 <body data-ws-url-path="{{ws_url_path}}">
