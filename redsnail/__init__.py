@@ -8,7 +8,7 @@ import webbrowser
 
 from .panels.ls import LsPanel
 
-STATIC_DIR = os.path.join(os.path.dirname(__file__), "_static")
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
 class PanelsSocket(WebSocketHandler):
