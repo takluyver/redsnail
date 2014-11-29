@@ -1,3 +1,4 @@
+import os.path
 import subprocess
 from . import PanelBase
 
@@ -8,17 +9,19 @@ status_map = {'A': 'added',
              }
 
 class GitPanel(PanelBase):
-    def on_cmd(self, event):
+    def on_prompt(self, event):
         try:
             reporoot = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'],
-                                               cwd=event['pwd'])
-        except subprocess.CalledProcessError:
+                                               universal_newlines=True,
+                                               cwd=event['pwd']).strip()
+        except subprocess.CalledProcessError as e:
+            print(e)
             return
             
         out = subprocess.check_output(['git', 'status', '--porcelain'],
-                                      cwd=reporoot.strip(),
+                                      cwd=reporoot,
                                       universal_newlines=True)
-        data = {'stage': [], 'wd': []}
+        data = {'stage': [], 'wd': [], 'reporoot': os.path.basename(reporoot)}
         for line in out.splitlines():
             stagestatus = line[0]
             wdstatus = line[1]
@@ -30,7 +33,7 @@ class GitPanel(PanelBase):
                                      })
             if wdstatus in 'MD?':
                 data['wd'].append({'path': path,
-                                   'status': status_map[stagestatus], 
+                                   'status': status_map[wdstatus], 
                                   })
         
         self.send({'kind': 'update',

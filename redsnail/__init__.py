@@ -7,6 +7,7 @@ import tornado_xstatic
 import webbrowser
 
 from .panels.ls import LsPanel
+from .panels.git import GitPanel
 
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
@@ -30,7 +31,7 @@ class Coordinator:
     def __init__(self, loop):
         self.pipebuffer = b''
         self.websockets = []
-        self.panels = [LsPanel(self)]
+        self.panels = [LsPanel(self), GitPanel(self)]
         self.currentdir = None
         self.last_hist_number = None
         pipe_path = os.path.join(os.environ['XDG_RUNTIME_DIR'], 'redsnail_pipe')
