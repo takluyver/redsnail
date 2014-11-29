@@ -85,7 +85,7 @@ def main(argv=None):
                 (r"/websocket", PanelsSocket),
                 (r"/", PageHandler),
                 (r"/xstatic/(.*)", tornado_xstatic.XStaticFileHandler,
-                     {'allowed_modules': ['jquery', 'requirejs']})
+                     {'allowed_modules': ['jquery', 'font_awesome', 'requirejs']})
                ]
     app = tornado.web.Application(handlers, static_path=STATIC_DIR,
                       template_path=TEMPLATE_DIR,
