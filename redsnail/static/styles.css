@@ -33,6 +33,29 @@ h2 {
     height: 1em;
     width: auto;
 }
+
+.git-panel .stage-container {
+    padding: 5px 0;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.git-panel .wd-container {
+    padding: 5px 0;
+    min-height: 2em;
+}
+
+.git-panel .transitions {
+    margin: -0.75em 0 0;
+    text-align: center;
+}
+
+.git-panel .transition-tile {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 8pt;
+    padding: 0 10px;
+    background-color: #fff;
+}
 /*-----------------------------------------------------------------------------
 | Copyright (c) 2014, S. Chris Colbert
 |

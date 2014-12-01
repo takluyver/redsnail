@@ -11,15 +11,36 @@ define(['jquery', 'phosphor'], function($, p) {
     p.inherits(GitPanel, p.Widget);
   
     GitPanel.prototype.createDOMNode = function() {
-        return $('<div/>').append(
-            $('<h2/>')
+        return $('<div/>').addClass('git-panel')
+            .append($('<h2/>')
                 .append($('<img/>').attr('src', '/static/git-logo.png')
                     .addClass('header-logo')
                 )
                 .append(' ').append(this.reporoot_elm)
-            ).append(this.stage_elm)
-            .append(this.wd_elm)
-            [0];
+            ).append(
+                $('<div/>').addClass('stage-container')
+                    .append($('<div/>').text('Stage')
+                        .css('float', 'right').css('padding','5px')
+                        .css('font-size', '15pt').css('color','#888')
+                    ).append(this.stage_elm)
+                    .append($('<div/>').css('clear', 'right')) // Ensure 'stage' stays inside the box
+            ).append(
+                $('<div/>').addClass('transitions')
+                .append($('<div/>').addClass('transition-tile')
+                    .append($('<i/>').addClass('fa fa-arrow-up'))
+                    .append(' git add <i>file</i>'))
+                .append($('<div/>').addClass('transition-tile')
+                    .append($('<i/>').addClass('fa fa-arrow-down'))
+                    .append(' git reset HEAD <i>file</i>'))
+            ).append(
+                $('<div/>').addClass('wd-container')
+                .append(this.wd_elm)
+            ).append(
+                $('<div/>').addClass('transitions')
+                .append($('<div/>').addClass('transition-tile')
+                    .append($('<i/>').addClass('fa fa-arrow-down'))
+                    .append(' git checkout -- <i>file</i>'))
+            )[0];
     };
     
     var status_to_tile_class = {
