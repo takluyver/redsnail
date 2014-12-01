@@ -100,10 +100,12 @@ h2 {
 
 .p-dockpanel-tabbar .p-tab {
   height: 25px;
-  padding: 0px 10px;
+  padding: 3px 10px;
   background-color: #3A3A3A;
   font-size: 11pt;
-  /*color: white;*/
+  color: white;
+  border: 1px solid black;
+  border-radius: 3px 3px 0 0;
 }
 
 
@@ -115,12 +117,13 @@ h2 {
 .p-dockpanel-tabbar .p-tab.p-current {
   background-color: white;
   color: black;
+  border-bottom-width: 0;
 }
 
 
 .p-dockarea-floattab {
   height: 27px;
-  padding: 0px 10px;
+  padding: 3px 10px;
   border: 1px solid #202020;
   background-color: white;
   font-size: 11pt;
