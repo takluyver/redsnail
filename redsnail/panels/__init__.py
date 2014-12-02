@@ -5,8 +5,5 @@ class PanelBase:
     def send(self, data):
         self.coordinator.broadcast_json(data)
     
-    def on_cmd(self, command):
-        pass
-    
-    def on_cd(self, path):
+    def on_prompt(self, command):
         pass
