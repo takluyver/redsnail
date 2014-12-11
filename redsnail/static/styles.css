@@ -22,6 +22,12 @@ body {
     background-color: hsl(0, 50%, 80%);
 }
 
+.info-bar {
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: #ddd;
+}
+
 h2 {
     font-size: 14pt;
     margin-top: 0.2em;

@@ -5,6 +5,10 @@ define(['jquery', 'phosphor'], function($, p) {
         this.reporoot_elm = document.createElement('span');
         this.stage_elm = document.createElement('div');
         this.wd_elm = document.createElement('div');
+        this.branch_name = document.createElement('span');
+        this.last_commit_msg = document.createElement('span');
+        this.last_commit_hash = document.createElement('span');
+        this.last_commit_time = document.createElement('span');
         p.Widget.call(this);
     }
 
@@ -18,6 +22,28 @@ define(['jquery', 'phosphor'], function($, p) {
                 )
                 .append(' ').append(this.reporoot_elm)
             ).append(
+                $('<div/>').addClass('info-bar')
+                    .append($('<div/>').css('float', 'right')
+                        // Branch name
+                        .append($('<i/>').addClass('fa fa-code-fork fa-lg'))
+                        .append(' ')
+                        .append(this.branch_name)
+                    )
+                    // Last commit info
+                    .append(' Last commit: ')
+                    .append($(this.last_commit_msg)
+                        .css('font-style','italic')
+                    )
+                    .append(' · ')
+                    .append(this.last_commit_time)
+                    .append(' · ')
+                    .append($(this.last_commit_hash)
+                        .css('vertical-align','middle')
+                        .css('font-family','mono')
+                        .css('font-size','8pt')
+                    )
+            ).append(
+                // Staged changes
                 $('<div/>').addClass('stage-container')
                     .append($('<div/>').text('Stage')
                         .css('float', 'right').css('padding','5px')
@@ -25,6 +51,7 @@ define(['jquery', 'phosphor'], function($, p) {
                     ).append(this.stage_elm)
                     .append($('<div/>').css('clear', 'right')) // Ensure 'stage' stays inside the box
             ).append(
+                // Hints for staging and unstaging
                 $('<div/>').addClass('transitions')
                 .append($('<div/>').addClass('transition-tile')
                     .append($('<i/>').addClass('fa fa-arrow-up'))
@@ -33,9 +60,11 @@ define(['jquery', 'phosphor'], function($, p) {
                     .append($('<i/>').addClass('fa fa-arrow-down'))
                     .append(' git reset HEAD <i>file</i>'))
             ).append(
+                // Unstaged changes
                 $('<div/>').addClass('wd-container')
                 .append(this.wd_elm)
             ).append(
+                // Hint for discarding changes
                 $('<div/>').addClass('transitions')
                 .append($('<div/>').addClass('transition-tile')
                     .append($('<i/>').addClass('fa fa-arrow-down'))
@@ -66,6 +95,10 @@ define(['jquery', 'phosphor'], function($, p) {
 
     GitPanel.prototype.on_update = function(data) {
         $(this.reporoot_elm).text(data.reporoot);
+        $(this.branch_name).text(data.branch);
+        $(this.last_commit_msg).text(data.commit.message);
+        $(this.last_commit_hash).text(data.commit.shorthash);
+        $(this.last_commit_time).text(data.commit.reltime);
         var stage = $(this.stage_elm);
         stage.empty();
         console.log(data);
