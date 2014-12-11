@@ -17,6 +17,7 @@ class LsPanel(PanelBase):
         _, dirs, files = next(os.walk(event['pwd']))
         self.send({'kind': 'update',
                    'panel': 'ls',
+                   'relevance': 50,
                    'data': {'dirs': filter_and_sort(dirs),
                             'files': filter_and_sort(files),
                             'path': compress_user(event['pwd']),

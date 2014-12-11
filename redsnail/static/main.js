@@ -16,12 +16,23 @@ GitPanel
         'ls': new LsPanel(),
         'git': new GitPanel(),
     };
+    var panel_titles = {
+        'ls': 'Files',
+        'git': 'Git',
+    };
+
+    var area = new phosphor.DockArea(tabBarFactory);
 
     ws.onmessage = function(event) {
         var msg = JSON.parse(event.data);
         if (msg.kind === 'update') {
-            if (panels[msg.panel]) {
-                panels[msg.panel].on_update(msg.data);
+            panel = panels[msg.panel];
+            if (msg.relevance > 0) {
+                panel.on_update(msg.data);
+                title = panel_titles[msg.panel];
+                area.insertWidget(title, panel, phosphor.DockMode.SplitBottom);
+            } else {
+                area.removeWidget(panel);
             }
         }
     };
@@ -32,11 +43,6 @@ GitPanel
     tabBar.setTabWidth(130);
     return tabBar;
   }
-
-  var area = new phosphor.DockArea(tabBarFactory);
-
-  area.insertWidget('Files', panels['ls'], phosphor.DockMode.TabBefore);
-  area.insertWidget('Git', panels['git'], phosphor.DockMode.TabBefore);
 
   area.mount(document.body);
 

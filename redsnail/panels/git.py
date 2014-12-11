@@ -18,7 +18,7 @@ class GitPanel(PanelBase):
                                                universal_newlines=True,
                                                cwd=event['pwd']).strip()
         except subprocess.CalledProcessError as e:
-            print(e)
+            self.send({'kind': 'update', 'panel': 'git', 'relevance': 0})
             return
 
         data = {'stage': [], 'wd': [], 'branch': None, 'commit': None,
@@ -57,5 +57,6 @@ class GitPanel(PanelBase):
         
         self.send({'kind': 'update',
                    'panel': 'git',
+                   'relevance': 60,
                    'data': data
                   })
