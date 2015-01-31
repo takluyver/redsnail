@@ -3,6 +3,7 @@ import json
 import re
 import tornado.web
 from tornado.websocket import WebSocketHandler
+import terminado
 import tornado_xstatic
 import webbrowser
 
@@ -23,7 +24,9 @@ class PageHandler(tornado.web.RequestHandler):
     def get(self):
         return self.render("eg.html", static=self.static_url,
                            xstatic=self.application.settings['xstatic_url'],
-                           ws_url_path="/websocket")
+                           ws_url_path="/websocket",
+                           term_url_path="/terminalsocket",
+                          )
 
 bash_hist_line_re = re.compile(r'\s*(\d+)\s+(.*)$')
 
@@ -82,11 +85,15 @@ class Coordinator:
 
 def main(argv=None):
     loop = tornado.ioloop.IOLoop.instance()
+    term_manager = terminado.SingleTermManager(shell_command=['bash'])
     handlers = [
                 (r"/websocket", PanelsSocket),
+                (r"/terminalsocket", terminado.TermSocket,
+                     {'term_manager': term_manager}),
                 (r"/", PageHandler),
                 (r"/xstatic/(.*)", tornado_xstatic.XStaticFileHandler,
-                     {'allowed_modules': ['jquery', 'font_awesome', 'requirejs']})
+                     {'allowed_modules': ['jquery', 'font_awesome', 'requirejs',
+                                          'termjs']})
                ]
     app = tornado.web.Application(handlers, static_path=STATIC_DIR,
                       template_path=TEMPLATE_DIR,

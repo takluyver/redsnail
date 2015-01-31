@@ -1,14 +1,17 @@
 require(['jquery',
 'phosphor', 
+'termwidget',
 'panels/ls',
 'panels/git',
 ],
 function($, phosphor,
+termwidget,
 LsPanel,
 GitPanel
 ) {
     var protocol = (window.location.protocol.indexOf("https") === 0) ? "wss" : "ws";
     var ws_url = protocol+"://"+window.location.host+ document.body.dataset.wsUrlPath;
+    var term_url = protocol+"://"+window.location.host+ document.body.dataset.termUrlPath;
 
     var ws = new WebSocket(ws_url);
 
@@ -22,6 +25,13 @@ GitPanel
     };
 
     var area = new phosphor.DockArea(tabBarFactory);
+    
+    var terminal = new termwidget.TerminalWidget(term_url, {
+        cols: 80,
+        rows: 30,
+        useStyle: true,
+    });
+    area.insertWidget('Terminal', terminal, phosphor.DockMode.SplitBottom);
 
     ws.onmessage = function(event) {
         var msg = JSON.parse(event.data);

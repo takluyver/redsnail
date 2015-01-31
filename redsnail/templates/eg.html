@@ -11,11 +11,12 @@
         paths: {
             jquery: "{{xstatic('jquery', 'jquery.min.js')}}",
             phosphor: "{{static('phosphor.min.js')}}",
+            termjs: "{{xstatic('termjs', 'term.js')}}",
         },
         baseUrl: "/static",
     });
 </script>
 <script type="text/javascript" src="{{static('main.js')}}"></script>
 </head>
-<body data-ws-url-path="{{ws_url_path}}">
+<body data-ws-url-path="{{ws_url_path}}" data-term-url-path="{{term_url_path}}">
 </body>
