@@ -32,6 +32,7 @@ GitPanel
         useStyle: true,
     });
     area.insertWidget('Terminal', terminal, phosphor.DockMode.SplitBottom);
+    area.insertWidget(panel_titles['ls'], panels['ls'], phosphor.DockMode.SplitRight);
 
     ws.onmessage = function(event) {
         var msg = JSON.parse(event.data);
@@ -40,7 +41,8 @@ GitPanel
             if (msg.relevance > 0) {
                 panel.on_update(msg.data);
                 title = panel_titles[msg.panel];
-                area.insertWidget(title, panel, phosphor.DockMode.SplitBottom);
+                // Assume ls will always be there, and insert below it
+                area.insertWidget(title, panel, phosphor.DockMode.SplitBottom, panels['ls']);
             } else {
                 area.removeWidget(panel);
             }
