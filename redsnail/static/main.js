@@ -29,7 +29,6 @@ GitPanel
     var terminal = new termwidget.TerminalWidget(term_url, {
         cols: 80,
         rows: 30,
-        useStyle: true,
     });
     area.insertWidget('Terminal', terminal, phosphor.DockMode.SplitBottom);
     area.insertWidget(panel_titles['ls'], panels['ls'], phosphor.DockMode.SplitRight);
