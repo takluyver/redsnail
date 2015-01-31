@@ -13,6 +13,11 @@ function TerminalWidget(ws_url, options) {
 
 p.inherits(TerminalWidget, p.Widget);
 
+// Test size: 25x80
+function termRowHeight(){ return 1.00 * $("#dummy-screen")[0].offsetHeight / 25;};
+    // 1.02 here arrived at by trial and error to make the spacing look right
+function termColWidth() { return 1.02 * $("#dummy-screen-rows")[0].offsetWidth / 80;};
+
 TerminalWidget.prototype._connect = function() {
     var term = this._m_term = new Terminal(this._m_opts);
     var socket = this._m_socket;
@@ -44,6 +49,26 @@ TerminalWidget.prototype._connect = function() {
 TerminalWidget.prototype._disconnect = function() {
     this._m_term.destroy();
     this._m_term = null;
+};
+
+TerminalWidget.prototype.requiresResize = true;
+
+TerminalWidget.prototype.computeResize = function() {
+    var e = this.domNode();
+    var r = this._m_opts.rows = Math.min(1000, Math.max(20,
+                            Math.floor(e.clientHeight/termRowHeight())-1));
+    var c = this._m_opts.cols = Math.min(1000, Math.max(40,
+                            Math.floor(e.clientWidth/termColWidth())-1));
+    console.log("resize terminal to :", r , 'rows by ', c, 'columns');
+};
+
+TerminalWidget.prototype.applyResize = function() {
+    if (this._m_term === null) {
+        return
+    }
+    this._m_term.resize(this._m_opts.cols, this._m_opts.rows);
+    this._m_socket.send(JSON.stringify(["set_size",
+                                    this._m_opts.rows, this._m_opts.cols]));
 };
 
 return {TerminalWidget: TerminalWidget};

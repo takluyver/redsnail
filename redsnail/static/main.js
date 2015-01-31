@@ -61,4 +61,7 @@ GitPanel
   window.onresize = function() {
     area.resize();
   };
+
+  // For debugging
+  window.dockarea = area;
 });
