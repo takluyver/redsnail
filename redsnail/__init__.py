@@ -7,6 +7,8 @@ import terminado
 import tornado_xstatic
 import webbrowser
 
+from os.path import dirname, join as pjoin
+
 from .panels.ls import LsPanel
 from .panels.git import GitPanel
 
@@ -85,7 +87,9 @@ class Coordinator:
 
 def main(argv=None):
     loop = tornado.ioloop.IOLoop.instance()
-    term_manager = terminado.SingleTermManager(shell_command=['bash'])
+    redsnail_dir = dirname(dirname(__file__))
+    term_manager = terminado.SingleTermManager(shell_command=['bash',
+                                  '--rcfile', pjoin(redsnail_dir, 'bashrc.sh')])
     handlers = [
                 (r"/websocket", PanelsSocket),
                 (r"/terminalsocket", terminado.TermSocket,
