@@ -4,7 +4,6 @@ import re
 import tornado.web
 from tornado.websocket import WebSocketHandler
 import terminado
-import tornado_xstatic
 import webbrowser
 
 from os.path import dirname, join as pjoin
@@ -12,7 +11,7 @@ from os.path import dirname, join as pjoin
 from .panels.ls import LsPanel
 from .panels.git import GitPanel
 
-STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
 class PanelsSocket(WebSocketHandler):
@@ -25,7 +24,6 @@ class PanelsSocket(WebSocketHandler):
 class PageHandler(tornado.web.RequestHandler):
     def get(self):
         return self.render("eg.html", static=self.static_url,
-                           xstatic=self.application.settings['xstatic_url'],
                            ws_url_path="/websocket",
                            term_url_path="/terminalsocket",
                           )
@@ -95,14 +93,10 @@ def main(argv=None):
                 (r"/terminalsocket", terminado.TermSocket,
                      {'term_manager': term_manager}),
                 (r"/", PageHandler),
-                (r"/xstatic/(.*)", tornado_xstatic.XStaticFileHandler,
-                     {'allowed_modules': ['jquery', 'font_awesome', 'requirejs',
-                                          'termjs']})
                ]
     app = tornado.web.Application(handlers, static_path=STATIC_DIR,
                       template_path=TEMPLATE_DIR,
                       coordinator = Coordinator(loop),
-                      xstatic_url = tornado_xstatic.url_maker('/xstatic/'),
                       )
     app.listen(8765)
     loop.add_callback(webbrowser.open, "http://localhost:8765/")

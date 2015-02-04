@@ -1,7 +1,2 @@
 tornado
 terminado
-tornado_xstatic
-XStatic-jQuery
-XStatic-Font-Awesome
-XStatic-RequireJS
-XStatic-term.js
