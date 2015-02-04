@@ -85,7 +85,7 @@ class Coordinator:
 
 def main(argv=None):
     loop = tornado.ioloop.IOLoop.instance()
-    redsnail_dir = dirname(dirname(__file__))
+    redsnail_dir = dirname(__file__)
     term_manager = terminado.SingleTermManager(shell_command=['bash',
                                   '--rcfile', pjoin(redsnail_dir, 'bashrc.sh')])
     handlers = [
