@@ -1,2 +1,6 @@
 __pycache__
 /static/components/
+/tornado/
+/terminado/
+/certifi/
+/ptyprocess/
