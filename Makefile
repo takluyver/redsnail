@@ -1,4 +1,4 @@
 deps:
-	pip install -t . -r pypi_deps.txt
-	rm -r *.egg-info
+	pip install -t pypkgs -r pypi_deps.txt
+	rm -r pypkgs/*.egg-info
 	bower install
