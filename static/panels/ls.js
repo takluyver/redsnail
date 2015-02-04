@@ -18,6 +18,7 @@ define(['jquery', 'phosphor'], function($, p) {
 
     LsPanel.prototype.on_update = function(data) {
         $(this.path_elm).text(data.path);
+        document.title = data.path;
         contents = $(this.contents_elm);
         contents.empty();
         var dir, file, tile;

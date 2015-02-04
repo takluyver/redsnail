@@ -27,10 +27,6 @@ TerminalWidget.prototype._connect = function() {
         socket.send(JSON.stringify(['stdin', data]));
     });
     
-    term.on('title', function(title) {
-        document.title = title;
-    });
-    
     term.open(this.domNode());
     
     socket.onmessage = function(event) {
