@@ -8,6 +8,7 @@ status_map = {'A': 'added',
               'D': 'deleted',
               '?': 'unknown',
              }
+# TODO: R for renamed
 
 head_branch_re = re.compile(r'ref: refs/heads/(.*)')
 
