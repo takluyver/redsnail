@@ -2,8 +2,7 @@ import os
 from . import PanelBase
 
 def filter_and_sort(filelist):
-    return [f for f in sorted(filelist, key=str.lower)
-                if not f.startswith(('.', '__'))]
+    return [f for f in sorted(filelist, key=str.lower) if not f.startswith('.')]
 
 
 _userdir = os.path.expanduser('~')
