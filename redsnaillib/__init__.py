@@ -1,6 +1,9 @@
 import os
 import json
 import re
+import tornado.ioloop
+import tornado.httpserver
+import tornado.netutil
 import tornado.web
 from tornado.websocket import WebSocketHandler
 import terminado
@@ -10,6 +13,9 @@ from os.path import dirname, join as pjoin
 
 from .panels.ls import LsPanel
 from .panels.git import GitPanel
+
+import logging
+log = logging.getLogger(__name__)
 
 STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
@@ -82,8 +88,18 @@ class Coordinator:
         for panel in self.panels:
             panel.on_prompt(event)
 
+def bind_to_random_port(app):
+    sockets = tornado.netutil.bind_sockets(0, 'localhost')
+    server = tornado.httpserver.HTTPServer(app)
+    server.add_sockets(sockets)
+
+    for s in sockets:
+        log.info('Listening on %s, port %d', *s.getsockname()[:2])
+
+    return sockets[0].getsockname()[1]
 
 def main(argv=None):
+    logging.basicConfig(level=logging.INFO)
     loop = tornado.ioloop.IOLoop.instance()
     redsnail_dir = dirname(__file__)
     term_manager = terminado.SingleTermManager(shell_command=['bash',
@@ -98,10 +114,9 @@ def main(argv=None):
                       template_path=TEMPLATE_DIR,
                       coordinator = Coordinator(loop),
                       )
-    app.listen(8765)
-    loop.add_callback(webbrowser.open, "http://localhost:8765/")
+    port = bind_to_random_port(app)
+    loop.add_callback(webbrowser.open, "http://localhost:%d/" % port)
     try:
         loop.start()
     except KeyboardInterrupt:
-        raise
         print(" Shutting down on SIGINT")
