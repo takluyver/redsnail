@@ -32,12 +32,17 @@ class GitPanel(PanelBase):
                 data['branch'] = m.group(1)
 
         # Describe the latest commit
-        commit_info = subprocess.check_output(['git', 'log', '-n', '1',
-                                               '--format=format:%h\x1f%cr\x1f%s'],
-                                              cwd=reporoot,
-                                              universal_newlines=True)
-        c = data['commit'] = {}
-        c['shorthash'], c['reltime'], c['message'] = commit_info.split('\x1f', 2)
+        try:
+            commit_info = subprocess.check_output(['git', 'log', '-n', '1',
+                                           '--format=format:%h\x1f%cr\x1f%s'],
+                                          cwd=reporoot,
+                                          universal_newlines=True)
+            c = data['commit'] = {}
+            c['shorthash'], c['reltime'], c['message'] = commit_info.split('\x1f', 2)
+        except subprocess.CalledProcessError:
+            # This happens in a brand new repo with no commits.
+            data['commit'] = {'shorthash': '', 'reltime': '',
+                              'message': '(No commits)'}
 
         status = subprocess.check_output(['git', 'status', '--porcelain'],
                                       cwd=reporoot,
