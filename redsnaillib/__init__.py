@@ -99,7 +99,7 @@ def bind_to_random_port(app):
     return sockets[0].getsockname()[1]
 
 def main(argv=None):
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig()
     loop = tornado.ioloop.IOLoop.instance()
     redsnail_dir = dirname(__file__)
     term_manager = terminado.SingleTermManager(shell_command=['bash',
