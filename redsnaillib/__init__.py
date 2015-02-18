@@ -36,6 +36,20 @@ class PageHandler(tornado.web.RequestHandler):
 
 bash_hist_line_re = re.compile(r'\s*(\d+)\s+(.*)$')
 
+def make_named_pipe():
+    """Make a new named pipe, and return its path.
+    """
+    pipe_path = os.path.join(os.environ['XDG_RUNTIME_DIR'], 'redsnail_pipe')
+    counter = 1
+    while True:
+        try:
+            candidate_path = pipe_path + str(counter)
+            os.mkfifo(candidate_path, 0o600)
+            log.info("Created named pipe at %s", candidate_path)
+            return candidate_path
+        except FileExistsError:
+            counter += 1
+
 class Coordinator:
     def __init__(self, loop):
         self.pipebuffer = b''
@@ -43,12 +57,9 @@ class Coordinator:
         self.panels = [LsPanel(self), GitPanel(self)]
         self.currentdir = None
         self.last_hist_number = None
-        pipe_path = os.path.join(os.environ['XDG_RUNTIME_DIR'], 'redsnail_pipe')
-        try:
-            os.mkfifo(pipe_path, 0o644)
-        except FileExistsError:
-            pass
-        self.pipefd = os.open(pipe_path, os.O_RDWR)
+
+        self.pipe_path = make_named_pipe()
+        self.pipefd = os.open(self.pipe_path, os.O_RDWR)
         loop.add_handler(self.pipefd, self.read_data, loop.READ)
 
     def read_data(self, fd, events):
@@ -88,6 +99,12 @@ class Coordinator:
         for panel in self.panels:
             panel.on_prompt(event)
 
+    def cleanup(self):
+        os.close(self.pipefd)
+        os.unlink(self.pipe_path)
+        log.info('Removed named pipe %s', self.pipe_path)
+
+
 def bind_to_random_port(app):
     sockets = tornado.netutil.bind_sockets(0, 'localhost')
     server = tornado.httpserver.HTTPServer(app)
@@ -102,8 +119,10 @@ def main(argv=None):
     logging.basicConfig()
     loop = tornado.ioloop.IOLoop.instance()
     redsnail_dir = dirname(__file__)
-    term_manager = terminado.SingleTermManager(shell_command=['bash',
-                                  '--rcfile', pjoin(redsnail_dir, 'bashrc.sh')])
+    coordinator = Coordinator(loop)
+    term_manager = terminado.SingleTermManager(
+        shell_command=['bash', '--rcfile', pjoin(redsnail_dir, 'bashrc.sh')],
+        extra_env={'REDSNAIL_PIPE': coordinator.pipe_path})
     handlers = [
                 (r"/websocket", PanelsSocket),
                 (r"/terminalsocket", terminado.TermSocket,
@@ -112,7 +131,7 @@ def main(argv=None):
                ]
     app = tornado.web.Application(handlers, static_path=STATIC_DIR,
                       template_path=TEMPLATE_DIR,
-                      coordinator = Coordinator(loop),
+                      coordinator = coordinator,
                       )
     port = bind_to_random_port(app)
     loop.add_callback(webbrowser.open, "http://localhost:%d/" % port)
@@ -120,3 +139,4 @@ def main(argv=None):
         loop.start()
     except KeyboardInterrupt:
         print(" Shutting down on SIGINT")
+        coordinator.cleanup()
