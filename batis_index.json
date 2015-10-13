@@ -2,7 +2,7 @@
   "builds": [
     {
       "url": "https://github.com/takluyver/redsnail/releases/download/0.1/redsnail_0.1.app.tar.gz",
-      "version": "0.1",
+      "version": "0.1"
     }
   ]
 }
