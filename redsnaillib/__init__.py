@@ -14,6 +14,8 @@ from os.path import dirname, join as pjoin
 from .panels.ls import LsPanel
 from .panels.git import GitPanel
 
+__version__ = '0.2'
+
 import logging
 log = logging.getLogger(__name__)
 
