@@ -7,8 +7,8 @@ deps:
 batis: deps
 	set -e ;\
 	VERSION=`python3 -c "import redsnaillib; print(redsnaillib.__version__)"` ;\
-	rm -rf build/redsnail ;\
-	mkdir -p build/redsnail ;\
-	cp -r redsnail redsnaillib pypkgs static batis_info build/redsnail/ ;\
-	cd build/ && tar -cvzf ../redsnail_$$VERSION.app.tar.gz redsnail ;\
+	rm -rf build/batis ;\
+	mkdir -p build/batis ;\
+	cp -r redsnail redsnaillib pypkgs static batis_info build/batis/ ;\
+	batis pack build/batis -n redsnail -o redsnail-$$VERSION.app.tgz ;\
 
