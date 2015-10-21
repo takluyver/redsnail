@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Redsnail
+Comment=The command line that shows you where you are
+TryExec=redsnail
+Exec=redsnail
+Icon=redsnail
