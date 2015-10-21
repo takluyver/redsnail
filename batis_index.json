@@ -1,8 +1,10 @@
 {
+  "name": "Redsnail",
   "builds": [
     {
-      "url": "https://github.com/takluyver/redsnail/releases/download/0.1/redsnail_0.1.app.tar.gz",
-      "version": "0.1"
+      "url": "https://github.com/takluyver/redsnail/releases/download/0.2/redsnail-0.2.app.tgz",
+      "sha512": "5e692d50a895dfe1735ddc1a7043bed11e6740f9bbd9d3b98df34528bc73d0ff11747643d36faebe326d0f6c3e6a7d887cea067779ab026ffd353f09435275e5",
+      "version": "0.2"
     }
   ]
 }
