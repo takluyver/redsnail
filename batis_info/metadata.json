@@ -2,7 +2,7 @@
   "name": "Redsnail",
   "byline": "See what you're doing at the command line",
   "index_url": "https://takluyver.github.io/redsnail/batis_index.json",
-  "icon": "batis_info/icons/hicolor/48x48/apps/redsnail.png",
+  "icon_name": "redsnail",
   "commands": [
     {"name": "redsnail", "target": "redsnail"}
   ]
