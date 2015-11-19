@@ -8,5 +8,6 @@
       "sha512": "5e692d50a895dfe1735ddc1a7043bed11e6740f9bbd9d3b98df34528bc73d0ff11747643d36faebe326d0f6c3e6a7d887cea067779ab026ffd353f09435275e5",
       "version": "0.2"
     }
-  ]
+  ],
+  "format_version": [1, 0]
 }
