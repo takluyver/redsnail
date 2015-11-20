@@ -4,9 +4,9 @@
   "icon_url": "http://takluyver.github.io/redsnail/icon-256.png",
   "builds": [
     {
-      "url": "https://github.com/takluyver/redsnail/releases/download/0.2/redsnail-0.2.app.tgz",
-      "sha512": "5e692d50a895dfe1735ddc1a7043bed11e6740f9bbd9d3b98df34528bc73d0ff11747643d36faebe326d0f6c3e6a7d887cea067779ab026ffd353f09435275e5",
-      "version": "0.2"
+      "url": "https://github.com/takluyver/redsnail/releases/download/0.3/redsnail-0.3.app.tgz",
+      "sha512": "5446d289b82b15d38318edc02b04395c305a5c8b1d374a3278656a7e4c8cf63018775095c6d2ccbd6d8d6a71caf44ed93328c2da0f10af3494d4dde35f6598d2",
+      "version": "0.3"
     }
   ],
   "format_version": [1, 0]
