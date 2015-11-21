@@ -18,7 +18,7 @@ What other panels do you want to see?
 (Linux only, for now - Mac users, see [issue #5](https://github.com/takluyver/redsnail/issues/5))
 
 If you have [Batis](http://batis-installer.github.io/), you can
-[click here to install](batis://takluyver.github.io/redsnail/batis_index.json).
+<a href="batis://takluyver.github.io/redsnail/batis_index.json">click here to install</a>.
 
 If not, [download the tarball](https://github.com/takluyver/redsnail/releases/download/0.3/redsnail-0.3.app.tgz),
 then unpack and install it from the command line by running:
