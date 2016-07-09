@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import sys
 import tornado.ioloop
 import tornado.httpserver
 import tornado.netutil
@@ -38,10 +39,19 @@ class PageHandler(tornado.web.RequestHandler):
 
 bash_hist_line_re = re.compile(r'\s*(\d+)\s+(.*)$')
 
+def runtime_dir():
+    """Get the runtime directory where we can create named pipes"""
+    if sys.platform.startswith('linux'):
+        return os.environ['XDG_RUNTIME_DIR']
+    elif sys.platform == 'darwin':
+        return '/private/var/tmp'
+    else:
+        raise NotImplementedError('Where do I create named pipes on this platform?')
+
 def make_named_pipe():
     """Make a new named pipe, and return its path.
     """
-    pipe_path = os.path.join(os.environ['XDG_RUNTIME_DIR'], 'redsnail_pipe')
+    pipe_path = os.path.join(runtime_dir(), 'redsnail_pipe')
     counter = 1
     while True:
         try:
