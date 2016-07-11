@@ -32,4 +32,4 @@ then unpack and install it from the command line by running:
 
 1. Make sure you have the development requirements: make, pip, bower.
 2. Run `make deps` to fetch Python & JS dependencies
-3. Run `./redsnail` to launch Redsnail.
+3. Run `python3 redsnail` to launch Redsnail.
